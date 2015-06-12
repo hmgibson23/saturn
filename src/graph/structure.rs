@@ -5,6 +5,8 @@ extern crate uuid;
 // so edges must have the same type as their target node which is annoying
 // alternatively define a type that is generic across all types - as in
 // data is just a stored bitset in the graph that is mapped over accordingly
+// relationship is currently a string whcih can be parsed an an integer or whatever
+// as needs be. this eliminates the problem of above
 
 /**
  * The definitions are deliberately apart form the trait implementations
@@ -27,7 +29,7 @@ pub struct Node <T> {
 pub struct Edge <T> {
     // this is the relationship as defined in the edge i.e Hugo knows Bob
     // might be worth restrictng this to just strings and numbers
-    pub relationship: T,
+    pub relationship: String,
     pub target: Node<T> // a target node needs to exist across any bound i.e a network bound
 }
 
