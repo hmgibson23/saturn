@@ -1,5 +1,11 @@
 extern crate uuid;
 
+
+// consider making the graph more generic as currently it only has one type
+// so edges must have the same type as their target node which is annoying
+// alternatively define a type that is generic across all types - as in
+// data is just a stored bitset in the graph that is mapped over accordingly
+
 /**
  * The definitions are deliberately apart form the trait implementations
  */
@@ -12,6 +18,10 @@ pub struct Node <T> {
     pub adjacent: Box<Vec<Edge<T>>>
 
 }
+
+
+// this needs another type variable as relationship will not necessarily have
+// the same type as an edge
 
 #[derive (Clone)]
 pub struct Edge <T> {
@@ -52,6 +62,16 @@ impl<T> Graph<T> {
 impl<T> Node<T> {
     pub fn new(data: T, adjacent: Vec<Edge<T>>) -> Node<T> {
         Node { _id: uuid::Uuid::new_v4(), data: data, adjacent: Box::new(adjacent) }
+    }
+
+    pub fn add_edge(&mut self, edge: Edge<T>) -> () {
+        self.adjacent.push(edge)
+    }
+
+    pub fn remove_edge(&mut self, edge: Edge<T>) -> bool {
+        self.adjacent.iter()
+            .position(|val| val.target._id == edge.target._id)
+            .map(|e| self.adjacent.remove(e)).is_some()
     }
 }
 
