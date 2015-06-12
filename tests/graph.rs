@@ -4,13 +4,13 @@ use saturn::graph::structure;
 
 #[test]
 fn should_create_a_node() {
-    let node = structure::Node { data: "A string".to_string(), adjacent: Vec::new() };
+    let node = structure::Node::new("A string".to_string(), Vec::new());
     assert!(node.data == "A string")
 }
 
 #[test]
 fn should_create_an_edge() {
-    let node = structure::Node { data: "A string".to_string(), adjacent: Vec::new() };
+    let node = structure::Node::new("A string".to_string(), Vec::new());
     let data = node.data.clone();
     let edge = structure::Edge { relationship: "knows".to_string(), target: node};
     assert!(edge.target.data == data)
@@ -18,9 +18,11 @@ fn should_create_an_edge() {
 
 #[test]
 fn should_create_a_graph() {
-    let node = structure::Node { data: "A string".to_string(), adjacent: Vec::new() };
+    let node = structure::Node::new("A string".to_string(), Vec::new());
     let edge = structure::Edge { relationship: "knows".to_string(), target: node.clone()};
-    let nodes = vec![node];
-    structure::Graph::new(&nodes);
-
+    let dest = structure::Node::new("A destination".to_string(), vec![edge.clone()]);
+    let nodes = vec![node.clone(), dest.clone()];
+    let graph = structure::Graph::new(nodes);
+    assert!(graph.graph.contains(&dest));
+    assert!(graph.graph.contains(&node))
 }

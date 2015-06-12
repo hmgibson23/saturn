@@ -2,3 +2,6 @@
 name = "saturn"
 version = "0.1.0"
 authors = ["hmgibson23 <hugo.gibson@yahoo.co.uk>"]
+
+[dependencies]
+uuid = "0.1"
