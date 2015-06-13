@@ -18,7 +18,6 @@ pub struct Node <T> {
     _id: NodeId, //id is the reference point on the graph - should be unique
     pub data: T,
     pub adjacent: Box<Vec<Edge<T>>>
-
 }
 
 
@@ -38,6 +37,14 @@ pub struct Edge <T> {
 pub struct Graph <T> {
     pub graph: Box<Vec<Node<T>>>
 }
+
+
+impl<T> Edge<T> {
+    pub fn new(relationship: String, target: Node<T>) -> Edge<T> {
+        Edge { relationship: relationship, target: target}
+    }
+}
+
 
 impl<T> Graph<T> {
     pub fn new(input: Vec<Node<T>>) -> Graph<T> {
