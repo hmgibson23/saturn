@@ -6,4 +6,9 @@ use saturn::server::command;
 fn should_parse_commands() {
     let test = "create database";
     let command = command::parse(&test);
+    let res = match command {
+        command::Command::Create(_) => true,
+        _ => false
+    };
+    assert!(res == true)
 }
