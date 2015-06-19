@@ -1,13 +1,16 @@
 use std::str;
 
+use db::db::DB;
+
+
 // contains all the possible commands
 // used by both client and server to create a database
+#[derive (Debug, Clone)]
 pub enum Command {
-    Create { db_name: Box<String> },
+    Create(String),
+    Show(String),
     ErrNotRecognised
 }
-
-
 
 
 pub fn parse(cmd: &[u8]) -> Command {
@@ -17,11 +20,23 @@ pub fn parse(cmd: &[u8]) -> Command {
     // I can't be bothered to write a full parser so for now
     // commands are in form: CMD_NAME ARGS
     let mut pieces = command.split(" ");
-    let first = pieces.nth(0).unwrap();
-    let arg = pieces.nth(1).unwrap();
+    let (first, arg) = (pieces.nth(0), pieces.last());
 
-    match first {
-        "create" => Command::Create {db_name: Box::new(arg.to_string())},
-        _ => Command::ErrNotRecognised
+    match (first, arg) {
+        (Some("create"), Some(a)) => Command::Create(a.to_string()),
+        (Some("show"), Some(a)) => Command::Show(a.to_string()),
+        (_, _) => Command::ErrNotRecognised
+    }
+}
+
+
+/**
+ * Execute the give command
+ */
+pub fn dispatch_command(command: Command, db: &mut DB) -> Result<String, String> {
+    match command {
+        Command::Create(a) => DB::create(db, &a),
+        Command::Show(_) => DB::show(db),
+        Command::ErrNotRecognised => Err("Unrecognised command".to_string())
     }
 }

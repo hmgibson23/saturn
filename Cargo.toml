@@ -5,3 +5,4 @@ authors = ["hmgibson23 <hugo.gibson@yahoo.co.uk>"]
 
 [dependencies]
 uuid = "0.1"
+rustc-serialize = "0.3"
