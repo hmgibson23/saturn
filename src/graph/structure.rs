@@ -1,6 +1,5 @@
 extern crate uuid;
 
-
 // consider making the graph more generic as currently it only has one type
 // so edges must have the same type as their target node which is annoying
 // alternatively define a type that is generic across all types - as in
@@ -13,7 +12,7 @@ extern crate uuid;
  */
 type NodeId = uuid::Uuid;
 
-#[derive (Clone)]
+#[derive (Clone, Eq, Hash)]
 pub struct Node <T> {
     _id: NodeId, //id is the reference point on the graph - should be unique
     pub data: T,
@@ -24,7 +23,7 @@ pub struct Node <T> {
 // this needs another type variable as relationship will not necessarily have
 // the same type as an edge
 
-#[derive (Clone)]
+#[derive (Clone, Eq, PartialEq, Hash)]
 pub struct Edge <T> {
     // this is the relationship as defined in the edge i.e Hugo knows Bob
     // might be worth restrictng this to just strings and numbers
@@ -34,7 +33,8 @@ pub struct Edge <T> {
 
 
 // initial graph representation is an adjacency list
-pub struct Graph <T> {
+#[derive (Clone, Eq, PartialEq, Hash)]
+pub struct Graph<T> {
     pub graph: Box<Vec<Node<T>>>
 }
 
@@ -89,3 +89,6 @@ impl<T> PartialEq for Node<T> {
         self._id == other._id
     }
 }
+
+
+//TODO: Implement iterator trait for the graph

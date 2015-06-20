@@ -32,5 +32,6 @@ fn should_add_nodes() {
 
 }
 
+#[test]
 fn should_remove_nodes() {
 }

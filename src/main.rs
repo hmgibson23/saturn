@@ -1,3 +1,8 @@
+extern crate saturn;
+
+use saturn::server::handler;
+
 fn main() {
-    println!("Hello, world!");
+    println!("Launching saturn server...");
+    handler::run_server();
 }
